@@ -122,6 +122,14 @@
 
 #pragma mark - WKNavigationDelegate
 
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
+    [self updateButtonsAndTitle];
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    [self updateButtonsAndTitle];
+}
+
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     [self webView:webView didFailNavigation:navigation withError:error];
 }
@@ -137,6 +145,23 @@
         [alert addAction:okAction];
         [self presentViewController:alert animated:YES completion:nil];
     }
+    
+    [self updateButtonsAndTitle];
+}
+
+#pragma mark - Miscellaneous
+
+- (void) updateButtonsAndTitle {
+    NSString *webpageTitle = [self.webView.title copy];
+    if ([webpageTitle length]) {
+        self.title = webpageTitle;
+    }
+    else {
+        self.title = self.webView.URL.absoluteString;
+    }
+    
+    self.backButton.enabled = [self.webView canGoBack];
+    self.forwardButton.enabled = [self.webView canGoForward];
 }
 
 
