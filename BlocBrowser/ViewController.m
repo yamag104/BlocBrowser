@@ -86,13 +86,19 @@
     // Make URL Bar width the same as view width
     CGFloat width = CGRectGetWidth(self.view.bounds);
     // Make the Browser height the asme height as the entire main view - URL bar height
-    CGFloat browserHeight = CGRectGetHeight(self.view.bounds) - itemHeight;
+    CGFloat browserHeight = CGRectGetHeight(self.view.bounds) - itemHeight-itemHeight;
+    CGFloat buttonWidth = CGRectGetWidth(self.view.bounds)/4;
     
     // Now, assign the frames
     // CGRectMake(howFarFromTheLeft, howFarFromTheTop, howWide, howTall)
     // CGRectGetMaxY = bottom of the text field
     self.textField.frame = CGRectMake(0,0,width,itemHeight); // x=0 y=0
     self.webView.frame = CGRectMake(0,CGRectGetMaxY(self.textField.frame), width, browserHeight);
+    CGFloat currentButtonX = 0;
+    for (UIButton *thisButton in @[self.backButton, self.forwardButton, self.stopButton,self.reloadButton]) {
+        thisButton.frame=CGRectMake(currentButtonX, CGRectGetMaxY(self.webView.frame), buttonWidth, itemHeight);
+        currentButtonX += buttonWidth;
+    }
 }
 
 #pragma mark - UITextFieldDelegate
