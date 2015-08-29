@@ -32,11 +32,7 @@
     self.textField.backgroundColor = [UIColor colorWithWhite:220/255.0f alpha:1];
     self.textField.delegate = self;
     
-    // Requesting web sites
-    NSString *urlString = @"http://wikipedia.org";
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [self.webView loadRequest:request];
+
     
     
     [mainView addSubview:self.webView];
@@ -68,6 +64,23 @@
     // CGRectGetMaxY = bottom of the text field
     self.textField.frame = CGRectMake(0,0,width,itemHeight); // x=0 y=0
     self.webView.frame = CGRectMake(0,CGRectGetMaxY(self.textField.frame), width, browserHeight);
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    NSString *URLString = textField.text;
+    NSURL *URL = [NSURL URLWithString:URLString];
+    
+    if (!URL.scheme) {
+        // The user didn't type http: or https:
+        URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", URLString]];
+    }
+    
+    if (URL) {
+        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+        [self.webView loadRequest:request];
+    }
+    return NO;
 }
 
 
