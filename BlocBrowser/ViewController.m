@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UIButton *forwardButton;
 @property (nonatomic, strong) UIButton *stopButton;
 @property (nonatomic, strong) UIButton *reloadButton;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -73,6 +74,9 @@
     // Prevents content to show under navigation bar & behind status bar
     self.edgesForExtendedLayout = UIRectEdgeNone;
     // Do any additional setup after loading the view, typically from a nib.
+    
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
 }
 
 - (void) viewWillLayoutSubviews {
@@ -153,15 +157,16 @@
 
 - (void) updateButtonsAndTitle {
     NSString *webpageTitle = [self.webView.title copy];
-    if ([webpageTitle length]) {
-        self.title = webpageTitle;
-    }
-    else {
-        self.title = self.webView.URL.absoluteString;
-    }
+    if ([webpageTitle length]) self.title = webpageTitle;
+    else    self.title = self.webView.URL.absoluteString;
+    
+    if (self.webView.isLoading)     [self.activityIndicator startAnimating];
+    else    [self.activityIndicator stopAnimating];
     
     self.backButton.enabled = [self.webView canGoBack];
     self.forwardButton.enabled = [self.webView canGoForward];
+    self.stopButton.enabled = self.webView.isLoading;
+    self.reloadButton.enabled = !self.webView.isLoading;
 }
 
 
