@@ -13,6 +13,7 @@
 		FB5B41281B915E7B00FA837C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB5B41271B915E7B00FA837C /* Images.xcassets */; };
 		FB5B412B1B915E7B00FA837C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB5B41291B915E7B00FA837C /* LaunchScreen.xib */; };
 		FB5B41371B915E7B00FA837C /* BlocBrowserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FB5B41361B915E7B00FA837C /* BlocBrowserTests.m */; };
+		FB5B41421B922EA800FA837C /* AwesomeFloatingToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = FB5B41411B922EA800FA837C /* AwesomeFloatingToolbar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,8 @@
 		FB5B41301B915E7B00FA837C /* BlocBrowserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlocBrowserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB5B41351B915E7B00FA837C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB5B41361B915E7B00FA837C /* BlocBrowserTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlocBrowserTests.m; sourceTree = "<group>"; };
+		FB5B41401B922EA800FA837C /* AwesomeFloatingToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwesomeFloatingToolbar.h; sourceTree = "<group>"; };
+		FB5B41411B922EA800FA837C /* AwesomeFloatingToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwesomeFloatingToolbar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +86,8 @@
 				FB5B411F1B915E7B00FA837C /* AppDelegate.m */,
 				FB5B41211B915E7B00FA837C /* ViewController.h */,
 				FB5B41221B915E7B00FA837C /* ViewController.m */,
+				FB5B41401B922EA800FA837C /* AwesomeFloatingToolbar.h */,
+				FB5B41411B922EA800FA837C /* AwesomeFloatingToolbar.m */,
 				FB5B41271B915E7B00FA837C /* Images.xcassets */,
 				FB5B41291B915E7B00FA837C /* LaunchScreen.xib */,
 				FB5B411A1B915E7B00FA837C /* Supporting Files */,
@@ -218,6 +223,7 @@
 				FB5B41231B915E7B00FA837C /* ViewController.m in Sources */,
 				FB5B41201B915E7B00FA837C /* AppDelegate.m in Sources */,
 				FB5B411D1B915E7B00FA837C /* main.m in Sources */,
+				FB5B41421B922EA800FA837C /* AwesomeFloatingToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
