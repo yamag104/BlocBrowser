@@ -16,6 +16,8 @@
 @property (nonatomic, weak) UILabel *currentLabel;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longpressGesture;
 @end
 
 @implementation AwesomeFloatingToolbar
@@ -64,6 +66,9 @@
         [self addGestureRecognizer:self.tapGesture];
         self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panFired:)];
         [self addGestureRecognizer:self.panGesture];
+        self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchFired:)];
+        [self addGestureRecognizer:self.pinchGesture];
+        self.longpressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longpressFired:)];
     }
     
     return self;
@@ -112,6 +117,8 @@
     }
 }
 
+#pragma mark - Tap Gestures
+
 - (void) tapFired:(UITapGestureRecognizer *)recognizer {
     // checking proper state: UIGestureRecognizerStateRecognized -> gesture is detected
     if (recognizer.state == UIGestureRecognizerStateRecognized) {
@@ -139,6 +146,15 @@
         }
         [recognizer setTranslation:CGPointZero inView:self];
     }
+}
+
+- (void) pinchFired:(UIPinchGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateRecognized) {
+    }
+}
+
+- (void) longpressFired:(UILongPressGestureRecognizer *)recognizer {
+    
 }
 
 @end
