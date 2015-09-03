@@ -206,4 +206,11 @@
     }
 }
 
+-(void)floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPinchWithScaleFactor:(CGFloat)scale {
+    CGPoint startingPoint = toolbar.frame.origin;
+    CGPoint newPoint = CGPointMake(startingPoint.x + scale.x, startingPoint.y + scale.y);
+    CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame), CGRectGetHeight(toolbar.frame));
+    
+}
+
 @end

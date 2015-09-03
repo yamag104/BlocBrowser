@@ -18,6 +18,8 @@
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UIPinchGestureRecognizer *pinchGesture;
 @property (nonatomic, strong) UILongPressGestureRecognizer *longpressGesture;
+@property (nonatomic, assign) CGFloat lastScale;
+@property (nonatomic, assign) CGPoint lastPoint;
 @end
 
 @implementation AwesomeFloatingToolbar
@@ -148,10 +150,29 @@
     }
 }
 
-- (void) pinchFired:(UIPinchGestureRecognizer *)recognizer {
-    if (recognizer.state == UIGestureRecognizerStateRecognized) {
+- (void) pinchFired:(UIPinchGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        self.lastScale = 1.0;
+        self.lastPoint = [sender locationInView:self];
     }
+    
+    // Scale
+    CGFloat scale = 1.0 - (self.lastScale - sender.scale);
+    [self.layer setAffineTransform:
+     CGAffineTransformScale([self.layer affineTransform],
+                            scale,
+                            scale)];
+    self.lastScale = sender.scale;
+    
+    // Translate
+    CGPoint point = [sender locationInView:self];
+    [self.layer setAffineTransform:
+     CGAffineTransformTranslate([self.layer affineTransform],
+                                point.x - self.lastPoint.x,
+                                point.y - self.lastPoint.y)];
+    self.lastPoint = [sender locationInView:self];
 }
+
 
 - (void) longpressFired:(UILongPressGestureRecognizer *)recognizer {
     
