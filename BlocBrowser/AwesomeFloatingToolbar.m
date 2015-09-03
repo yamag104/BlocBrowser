@@ -146,31 +146,38 @@
         if ([self.delegate respondsToSelector:@selector(floatingToolbar:didTryToPanWithOffset:)]) {
             [self.delegate floatingToolbar:self didTryToPanWithOffset:translation];
         }
+        
         [recognizer setTranslation:CGPointZero inView:self];
     }
 }
 
-- (void) pinchFired:(UIPinchGestureRecognizer *)sender {
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        self.lastScale = 1.0;
-        self.lastPoint = [sender locationInView:self];
+- (void) pinchFired:(UIPinchGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        if ([self.delegate respondsToSelector:@selector(floatingToolbar:didTryToPinchWithScaleFactor:)]){
+            [self.delegate floatingToolbar:self didTryToPinchWithScaleFactor:recognizer];
+        }
     }
-    
-    // Scale
-    CGFloat scale = 1.0 - (self.lastScale - sender.scale);
-    [self.layer setAffineTransform:
-     CGAffineTransformScale([self.layer affineTransform],
-                            scale,
-                            scale)];
-    self.lastScale = sender.scale;
-    
-    // Translate
-    CGPoint point = [sender locationInView:self];
-    [self.layer setAffineTransform:
-     CGAffineTransformTranslate([self.layer affineTransform],
-                                point.x - self.lastPoint.x,
-                                point.y - self.lastPoint.y)];
-    self.lastPoint = [sender locationInView:self];
+
+//    if (sender.state == UIGestureRecognizerStateBegan) {
+//        self.lastScale = 1.0;
+//        self.lastPoint = [sender locationInView:self];
+//    }
+//    
+//    // Scale
+//    CGFloat scale = 1.0 - (self.lastScale - sender.scale);
+//    [self.layer setAffineTransform:
+//     CGAffineTransformScale([self.layer affineTransform],
+//                            scale,
+//                            scale)];
+//    self.lastScale = sender.scale;
+//    
+//    // Translate
+//    CGPoint point = [sender locationInView:self];
+//    [self.layer setAffineTransform:
+//     CGAffineTransformTranslate([self.layer affineTransform],
+//                                point.x - self.lastPoint.x,
+//                                point.y - self.lastPoint.y)];
+//    self.lastPoint = [sender locationInView:self];
 }
 
 

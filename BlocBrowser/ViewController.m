@@ -48,6 +48,7 @@
     self.textField.delegate = self;
     
     self.awesomeToolbar = [[AwesomeFloatingToolbar alloc] initWithFourTitles:@[kWebBrowserBackString, kWebBrowserForwardString, kWebBrowserStopString, kWebBrowserRefreshString]];
+    self.awesomeToolbar.delegate = self;
     
     // Use loop to add each view to the main view
     for (UIView *viewToAdd in @[self.webView, self.textField, self.awesomeToolbar]){
@@ -195,6 +196,7 @@
     }
 }
 
+// Detects a pan or drag gesture
 - (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffset:(CGPoint)offset {
     CGPoint startingPoint = toolbar.frame.origin;
     CGPoint newPoint = CGPointMake(startingPoint.x + offset.x, startingPoint.y + offset.y);
@@ -204,13 +206,13 @@
     if (CGRectContainsRect(self.view.bounds, potentialNewFrame)) {
         toolbar.frame = potentialNewFrame;
     }
+    NSLog(@"Here2");
 }
 
 -(void)floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPinchWithScaleFactor:(CGFloat)scale {
-    CGPoint startingPoint = toolbar.frame.origin;
-    CGPoint newPoint = CGPointMake(startingPoint.x + scale.x, startingPoint.y + scale.y);
-    CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame), CGRectGetHeight(toolbar.frame));
-    
+//    CGPoint startingPoint = toolbar.frame.origin;
+//    CGPoint newPoint = CGPointMake(startingPoint.x + scale.x, startingPoint.y + scale.y);
+//    CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame), CGRectGetHeight(toolbar.frame));
 }
 
 @end
