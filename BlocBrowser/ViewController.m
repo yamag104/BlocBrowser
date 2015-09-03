@@ -48,6 +48,7 @@
     self.textField.delegate = self;
     
     self.awesomeToolbar = [[AwesomeFloatingToolbar alloc] initWithFourTitles:@[kWebBrowserBackString, kWebBrowserForwardString, kWebBrowserStopString, kWebBrowserRefreshString]];
+    self.awesomeToolbar.delegate = self;
     
     // Use loop to add each view to the main view
     for (UIView *viewToAdd in @[self.webView, self.textField, self.awesomeToolbar]){
