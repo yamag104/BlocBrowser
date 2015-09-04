@@ -17,10 +17,6 @@
 #define kWebBrowserForwardString NSLocalizedString(@"Forward", @"Forward command")
 #define kWebBrowserStopString NSLocalizedString(@"Stop", @"Stop command")
 #define kWebBrowserRefreshString NSLocalizedString(@"Refresh", @"Reload command")
-#define colorPurple [UIColor colorWithRed:199/255.0 green:158/255.0 blue:203/255.0 alpha:1]
-#define colorRed [UIColor colorWithRed:255/255.0 green:105/255.0 blue:97/255.0 alpha:1]
-#define colorOrange [UIColor colorWithRed:222/255.0 green:165/255.0 blue:164/255.0 alpha:1]
-#define colorYellow [UIColor colorWithRed:255/255.0 green:179/255.0 blue:71/255.0 alpha:1]
 
 @interface ViewController () <WKNavigationDelegate, UITextFieldDelegate, AwesomeFloatingToolbarDelegate>
 
@@ -29,7 +25,8 @@
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) AwesomeFloatingToolbar *awesomeToolbar;
 @property (nonatomic, assign) NSUInteger frameCount;
-
+@property (nonatomic, assign) CGFloat lastScale;
+@property (nonatomic, assign) CGPoint lastPoint;
 @end
 
 @implementation ViewController
@@ -215,9 +212,14 @@
 }
 
 -(void)floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPinchWithScaleFactor:(CGFloat)scale {
-    toolbar.transform = CGAffineTransformScale(toolbar.transform, scale, scale);
-    scale = 1;
-    
+//    toolbar.transform = CGAffineTransformScale(toolbar.transform, scale, scale);
+//    scale = 1;
+    self.lastScale = 1.0;
+    CGFloat newScale = 1.0 - (self.lastScale - scale);
+    CGAffineTransform currentTransform = toolbar.transform;
+    CGAffineTransform newTransform = CGAffineTransformScale(currentTransform, newScale, newScale);
+    [toolbar setTransform:newTransform];
+    self.lastScale = scale;
 }
 
 -(void)floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToLongPressWithColors:(UIColor *)color {

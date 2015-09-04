@@ -159,10 +159,10 @@
 }
 
 - (void) pinchFired:(UIPinchGestureRecognizer *)recognizer {
-    if (recognizer.state == UIGestureRecognizerStateChanged) {
-        CGFloat scale = [recognizer scale];
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        self.lastScale = 1.0;
         if ([self.delegate respondsToSelector:@selector(floatingToolbar:didTryToPinchWithScaleFactor:)]){
-            [self.delegate floatingToolbar:self didTryToPinchWithScaleFactor:scale];
+            [self.delegate floatingToolbar:self didTryToPinchWithScaleFactor:[recognizer scale]];
         }
         recognizer.scale=1;
     }
@@ -177,16 +177,16 @@
         for (NSInteger i=0; i<4; ++i){
             UIColor *currentColor= ((UILabel *)[self.labels objectAtIndex:i]).backgroundColor;
             if ([currentColor isEqual:colorPurple]){
-                ((UILabel *)[self.labels objectAtIndex:i]).backgroundColor = colorRed;
-            }
-            else if ([currentColor isEqual:colorRed]){
                 ((UILabel *)[self.labels objectAtIndex:i]).backgroundColor = colorOrange;
             }
-            else if ([currentColor isEqual:colorOrange]){
-                ((UILabel *)[self.labels objectAtIndex:i]).backgroundColor = colorYellow;
+            else if ([currentColor isEqual:colorRed]){
+                ((UILabel *)[self.labels objectAtIndex:i]).backgroundColor = colorPurple;
             }
             else if ([currentColor isEqual:colorYellow]){
                 ((UILabel *)[self.labels objectAtIndex:i]).backgroundColor = colorRed;
+            }
+            else if ([currentColor isEqual:colorOrange]){
+                ((UILabel *)[self.labels objectAtIndex:i]).backgroundColor = colorYellow;
             }
         }
     
