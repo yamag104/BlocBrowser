@@ -17,6 +17,10 @@
 #define kWebBrowserForwardString NSLocalizedString(@"Forward", @"Forward command")
 #define kWebBrowserStopString NSLocalizedString(@"Stop", @"Stop command")
 #define kWebBrowserRefreshString NSLocalizedString(@"Refresh", @"Reload command")
+#define colorPurple [UIColor colorWithRed:199/255.0 green:158/255.0 blue:203/255.0 alpha:1]
+#define colorRed [UIColor colorWithRed:255/255.0 green:105/255.0 blue:97/255.0 alpha:1]
+#define colorOrange [UIColor colorWithRed:222/255.0 green:165/255.0 blue:164/255.0 alpha:1]
+#define colorYellow [UIColor colorWithRed:255/255.0 green:179/255.0 blue:71/255.0 alpha:1]
 
 @interface ViewController () <WKNavigationDelegate, UITextFieldDelegate, AwesomeFloatingToolbarDelegate>
 
@@ -71,6 +75,8 @@
     
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:nil];
+    
+    
 }
 
 - (void) viewWillLayoutSubviews {
@@ -206,13 +212,15 @@
     if (CGRectContainsRect(self.view.bounds, potentialNewFrame)) {
         toolbar.frame = potentialNewFrame;
     }
-    NSLog(@"Here2");
 }
 
 -(void)floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPinchWithScaleFactor:(CGFloat)scale {
-//    CGPoint startingPoint = toolbar.frame.origin;
-//    CGPoint newPoint = CGPointMake(startingPoint.x + scale.x, startingPoint.y + scale.y);
-//    CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame), CGRectGetHeight(toolbar.frame));
+    toolbar.transform = CGAffineTransformScale(toolbar.transform, scale, scale);
+    scale = 1;
+    
+}
+
+-(void)floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToLongPressWithColors:(UIColor *)color {
 }
 
 @end

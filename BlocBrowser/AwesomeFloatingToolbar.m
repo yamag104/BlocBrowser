@@ -22,6 +22,11 @@
 @property (nonatomic, assign) CGPoint lastPoint;
 @end
 
+#define colorPurple [UIColor colorWithRed:199/255.0 green:158/255.0 blue:203/255.0 alpha:1]
+#define colorRed [UIColor colorWithRed:255/255.0 green:105/255.0 blue:97/255.0 alpha:1]
+#define colorOrange [UIColor colorWithRed:222/255.0 green:165/255.0 blue:164/255.0 alpha:1]
+#define colorYellow [UIColor colorWithRed:255/255.0 green:179/255.0 blue:71/255.0 alpha:1]
+
 @implementation AwesomeFloatingToolbar
 
 - (instancetype) initWithFourTitles:(NSArray *)titles {
@@ -71,6 +76,8 @@
         self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchFired:)];
         [self addGestureRecognizer:self.pinchGesture];
         self.longpressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longpressFired:)];
+        [self.longpressGesture setMinimumPressDuration:1];
+        [self addGestureRecognizer:self.longpressGesture];
     }
     
     return self;
@@ -153,35 +160,37 @@
 
 - (void) pinchFired:(UIPinchGestureRecognizer *)recognizer {
     if (recognizer.state == UIGestureRecognizerStateChanged) {
+        CGFloat scale = [recognizer scale];
         if ([self.delegate respondsToSelector:@selector(floatingToolbar:didTryToPinchWithScaleFactor:)]){
-            [self.delegate floatingToolbar:self didTryToPinchWithScaleFactor:recognizer];
+            [self.delegate floatingToolbar:self didTryToPinchWithScaleFactor:scale];
         }
+        recognizer.scale=1;
     }
-
-//    if (sender.state == UIGestureRecognizerStateBegan) {
-//        self.lastScale = 1.0;
-//        self.lastPoint = [sender locationInView:self];
-//    }
-//    
-//    // Scale
-//    CGFloat scale = 1.0 - (self.lastScale - sender.scale);
-//    [self.layer setAffineTransform:
-//     CGAffineTransformScale([self.layer affineTransform],
-//                            scale,
-//                            scale)];
-//    self.lastScale = sender.scale;
-//    
-//    // Translate
-//    CGPoint point = [sender locationInView:self];
-//    [self.layer setAffineTransform:
-//     CGAffineTransformTranslate([self.layer affineTransform],
-//                                point.x - self.lastPoint.x,
-//                                point.y - self.lastPoint.y)];
-//    self.lastPoint = [sender locationInView:self];
 }
 
 
 - (void) longpressFired:(UILongPressGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateRecognized) {
+//        if ([self.delegate respondsToSelector:@selector(floatingToolbar:didTryToLongPressWithColors:)]){
+//            [self.delegate floatingToolbar:self didTryToLongPressWithColors:((UILabel *)[self.labels objectAtIndex:0]).backgroundColor]; // passes the current background color at index 0
+//        }
+        for (NSInteger i=0; i<4; ++i){
+            UIColor *currentColor= ((UILabel *)[self.labels objectAtIndex:i]).backgroundColor;
+            if ([currentColor isEqual:colorPurple]){
+                ((UILabel *)[self.labels objectAtIndex:i]).backgroundColor = colorRed;
+            }
+            else if ([currentColor isEqual:colorRed]){
+                ((UILabel *)[self.labels objectAtIndex:i]).backgroundColor = colorOrange;
+            }
+            else if ([currentColor isEqual:colorOrange]){
+                ((UILabel *)[self.labels objectAtIndex:i]).backgroundColor = colorYellow;
+            }
+            else if ([currentColor isEqual:colorYellow]){
+                ((UILabel *)[self.labels objectAtIndex:i]).backgroundColor = colorRed;
+            }
+        }
+    
+    }
     
 }
 
