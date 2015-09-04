@@ -25,7 +25,8 @@
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) AwesomeFloatingToolbar *awesomeToolbar;
 @property (nonatomic, assign) NSUInteger frameCount;
-
+@property (nonatomic, assign) CGFloat lastScale;
+@property (nonatomic, assign) CGPoint lastPoint;
 @end
 
 @implementation ViewController
@@ -71,6 +72,8 @@
     
     [alert addAction:okAction];
     [self presentViewController:alert animated:YES completion:nil];
+    
+    
 }
 
 - (void) viewWillLayoutSubviews {
@@ -91,7 +94,10 @@
     // CGRectGetMaxY = bottom of the text field
     self.textField.frame = CGRectMake(0,0,width,itemHeight); // x=0 y=0
     self.webView.frame = CGRectMake(0,CGRectGetMaxY(self.textField.frame), width, browserHeight);
-    self.awesomeToolbar.frame = CGRectMake(20,100,280,60);
+    if (self.awesomeToolbar.frame.size.width == 0){
+        self.awesomeToolbar.frame = CGRectMake(20,100,280,60);
+    }
+
 }
 
 #pragma mark - UITextFieldDelegate
@@ -194,6 +200,41 @@
     } else if ([title isEqual:kWebBrowserRefreshString]) {
         [self.webView reload];
     }
+}
+
+// Detects a pan or drag gesture
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffset:(CGPoint)offset {
+    CGPoint startingPoint = toolbar.frame.origin;
+    CGPoint newPoint = CGPointMake(startingPoint.x + offset.x, startingPoint.y + offset.y);
+    
+    CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame), CGRectGetHeight(toolbar.frame));
+    
+    if (CGRectContainsRect(self.view.bounds, potentialNewFrame)) {
+        toolbar.frame = potentialNewFrame;
+    }
+}
+
+-(void)floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPinchWithScaleFactor:(CGFloat)scale {
+//    toolbar.transform = CGAffineTransformScale(toolbar.transform, scale, scale);
+//    scale = 1;
+//    self.lastScale = 1.0;
+//    CGFloat newScale = 1.0 - (self.lastScale - scale);
+//    CGAffineTransform currentTransform = toolbar.transform;
+//    CGAffineTransform newTransform = CGAffineTransformScale(currentTransform, newScale, newScale);
+//    [toolbar setTransform:newTransform];
+//    self.lastScale = scale;
+    
+    CGPoint startingPoint = toolbar.frame.origin;
+//    CGPoint newPoint = CGPointMake(startingPoint.x, startingPoint.y + offset.y);
+    
+    CGRect potentialNewFrame = CGRectMake(startingPoint.x, startingPoint.y, CGRectGetWidth(toolbar.frame) * scale, CGRectGetHeight(toolbar.frame) * scale);
+    
+    if (CGRectContainsRect(self.view.bounds, potentialNewFrame) && potentialNewFrame.size.width > 80.0) {
+        toolbar.frame = potentialNewFrame;
+    }
+}
+
+-(void)floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToLongPressWithColors:(UIColor *)color {
 }
 
 @end
